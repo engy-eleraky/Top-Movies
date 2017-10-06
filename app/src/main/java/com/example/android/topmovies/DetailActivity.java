@@ -57,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
             String rate=String.valueOf(movie.getVoteAverage());
             TextRate.setText(rate);
             TextOverView.setText(movie.getOverView());
-            Picasso.with(getContext()).load(movie.getPoster()).into(ImagePoster);
+            Picasso.with(getContext()).load(movie.getPoster()).fit().into(ImagePoster);
 
             return rootView;
         }//on create view
