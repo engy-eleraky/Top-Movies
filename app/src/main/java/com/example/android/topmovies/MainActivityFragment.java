@@ -26,21 +26,18 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment implements AdapterView.OnItemSelectedListener,onMoviesLoadedListner,ImageAdapter.ImageItemClickListner {
     public static final String RESULT_KEY = "myobj";
     public static  String SPINNER_SELECTION="decision";
+    MovieTask movieTask;
     RecyclerView recyclerView;
     ImageAdapter adapter;
-    RecyclerView.LayoutManager layoutManager;
-    String selection;
     Spinner spinner;
-    SharedPreferences.Editor editor;
+    RecyclerView.LayoutManager layoutManager;
     Parcelable layout;
-    String itemSelect;
     SharedPreferences preferences;
-    //String item;
+    SharedPreferences.Editor editor;
+    String itemSelect;
     String itemselected;
     private static final String SAVED_LAYOUT_MANAGER = "layout";
-    String newSpinnerPostion;
     private static final String SAVED_SELECTED_POSITION="spinnerSelection";
-    MovieTask movieTask;
 
     public MainActivityFragment() {
 
@@ -56,7 +53,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onSaveInstanceState(Bundle outsate) {
         outsate.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
-        // outsate.putInt(SAVED_SELECTED_POSITION,spinner.getSelectedItemPosition());
         String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
         outsate.putString(SAVED_SELECTED_POSITION,pref);
         super.onSaveInstanceState(outsate);
@@ -67,33 +63,10 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null  ){
             layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
-            //spinner.setSelection(savedInstanceState.getInt(SAVED_SELECTED_POSITION));
             itemSelect=savedInstanceState.getString(SAVED_SELECTED_POSITION,"");
-            // itemselected=itemSelect;
-            //getPrefernce(itemSelect);
-//            if(itemselected!=null){
-//               itemSelect=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(itemselected,null);
-////                movieTask = new MovieTask(getActivity(),this);
-//                movieTask.execute();
 
-            //getPrefernce(itemSelection);
-            //}
-//            if(item != null){
-//                editor.putString(SPINNER_SELECTION,item);
-//                editor.apply();
-//                MovieTask movieTask = new MovieTask(getActivity(),this);
-//                movieTask.execute();
-            //}
-            //newSpinnerPostion=savedInstanceState.getString(SAVED_SELECTED_POSITION,"");
-//                item=newSpinnerPostion;
-            //null
-//            if(item!=null){
-//            getPrefernce(item);}
         }
-
     }
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -104,43 +77,8 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         ArrayAdapter<CharSequence> Adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.spinner_list_item_array, android.R.layout.simple_spinner_item);
         Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinner.setAdapter(Adapter);
-        // Adapter.notifyDataSetChanged();
-//        if(layout!=null){
-//            if(itemSelect=="top_rated")
-//                spinner.setSelection(1);
-//            else if (itemSelect=="popular"){
-//                spinner.setSelection(0);
-//            }
-//           // getPrefernce(itemSelect);
-//        }
-        //restoreLayoutManagerPosition();
-//        if(itemSelect=="top_rated")
-//            spinner.setSelection(1);
-//        else {
-//            spinner.setSelection(0);
-//        }
-//        itemselected=itemSelect;
-//        getPrefernce(itemselected);
-
-        //getPrefernce(itemSelect);
-        //restoreLayoutManagerPosition();
         spinner.setOnItemSelectedListener( this);
-        //spinner.onSaveInstanceState();
-        //Adapter.notifyDataSetChanged();
-        //itemselected=spinner.getSelectedItem().toString();
-
-//        selection= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,null);
-//
-//        if(selection=="popular"){
-//            spinner.setSelection(0);
-//        }
-//        else if(selection=="top_rated") {
-//            spinner.setSelection(1);
-//        }
-
-        //restoreLayoutManagerPosition();
     }
 
 
@@ -171,89 +109,33 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//            getPrefernce(itemselected);
-//        }
-//        else{
-        //spinner.onRestoreInstanceState(itemSelect);
-        //if(itemSelect==null)
-        if(itemSelect!=null){
-            //restore the value iand save it n share
-           PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SPINNER_SELECTION,itemSelect).apply();
-            //preferences.edit().putString(SPINNER_SELECTION,itemSelect).apply();
-            MovieTask movieTask = new MovieTask(getActivity(),this);
-            movieTask.execute();
 
+        if(layout!=null){
+            if(itemSelect!=null)
+            { //restore the value iand save it n share
+           //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SPINNER_SELECTION,itemSelect).apply();
+//            MovieTask movieTask = new MovieTask(getActivity(),this);
+//            movieTask.execute();
        }
-        //adapter.getItemId(position);
         else{
         itemselected = parent.getItemAtPosition(position).toString();
            getPrefernce(itemselected);
         }
-
-//        else if(itemSelect=="top_rated")
-////        if(itemSelect!=null){
-//        {itemselected="top_rated";}
-
-        // getPrefernce(itemselected);
-
-
-        //getPrefernce(itemselected);
-        // }
-        // getPrefernce(itemselected);
-        //itemselected=null;
-        //spinner.getItemAtPosition(position);
-//restoreLayoutManagerPosition();
-
-
-
-        //String item =spinner.getItemAtPosition(position).toString();
-//         if(position==1){
-//           item ="top_rated";
-//        }
-//        else if(position==0){
-//            item="popular";
-//        }
-//        spinner.setSelection(position);
-
-//        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        editor = preferences.edit();
-//        editor.putString(SPINNER_SELECTION,item);
-//        editor.apply();
-//        MovieTask movieTask = new MovieTask(getActivity(),this);
-//        movieTask.execute();
-//        preferences.registerOnSharedPreferenceChangeListener(this);
-        //restoreLayoutManagerPosition();
-
-        //editor.clear();
-        //item=newSpinnerPostion;
-    }
+    }}
 
     private void getPrefernce(String s){
-         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = preferences.edit();
         editor.putString(SPINNER_SELECTION,s);
         editor.apply();
         MovieTask movieTask = new MovieTask(getActivity(),this);
         movieTask.execute();
-        //preferences.registerOnSharedPreferenceChangeListener(this);
     }
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
 
     }
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        editor = preferences.edit();
-//        editor.putString(SPINNER_SELECTION,itemSelect);
-//        editor.apply();
-//    }
-
-//interface
 
     @Override
     public void onMoviesLoaded(ArrayList<MovieItem> result) {
@@ -275,33 +157,8 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         if (layout != null ) {
             recyclerView.getLayoutManager().onRestoreInstanceState(layout);
 
-            //item=newSpinnerPostion;
-            // preferences.getString(newSpinnerPostion,item);
-//            if(preferences!=null){
-//                item=newSpinnerPostion;
-//            }
-            // spinner.getSelectedItem();
         }
-//        if(PreferenceManager.getDefaultSharedPreferences(getActivity()).edit() !=null){
-//            getPrefernce(itemselected);
-//
-//        }
-//        if(itemSelect!=null){
-//           // Parcelable ITEM=itemSelect;
-//            spinner.onRestoreInstanceState();
-//            getPrefernce(itemSelect);
-//        }
     }
 
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
-//        if(key.equals(SPINNER_SELECTION))
-//      preferences.getString(key,);
-//    }
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-////PreferenceManager.getDefaultSharedPreferences(getActivity()).unregisterOnSharedPreferenceChangeListener(this);
-//    }
 }//fragment
 
