@@ -110,7 +110,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        if(layout!=null){
+
             if(itemSelect!=null)
             { //restore the value iand save it n share
            //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SPINNER_SELECTION,itemSelect).apply();
@@ -121,7 +121,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         itemselected = parent.getItemAtPosition(position).toString();
            getPrefernce(itemselected);
         }
-    }}
+    }
 
     private void getPrefernce(String s){
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
