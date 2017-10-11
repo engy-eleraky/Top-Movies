@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,14 +35,14 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     Parcelable layout;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    String itemSelect;
     String itemselected;
+     ProgressBar mLoadingIndicator;
     private static final String SAVED_LAYOUT_MANAGER = "layout";
-    private static final String SAVED_SELECTED_POSITION="spinnerSelection";
 
     public MainActivityFragment() {
 
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onSaveInstanceState(Bundle outsate) {
         outsate.putParcelable(SAVED_LAYOUT_MANAGER, recyclerView.getLayoutManager().onSaveInstanceState());
-        String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
-        outsate.putString(SAVED_SELECTED_POSITION,pref);
         super.onSaveInstanceState(outsate);
     }
 
@@ -63,8 +62,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null  ){
             layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
-            itemSelect=savedInstanceState.getString(SAVED_SELECTED_POSITION,"");
-
         }
     }
 
@@ -78,11 +75,16 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 R.array.spinner_list_item_array, android.R.layout.simple_spinner_item);
         Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(Adapter);
+
+        String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
+        if(pref.equals("top_rated")){
+            spinner.setSelection(1);
+        }else {
+            spinner.setSelection(0);
+        }
         spinner.setOnItemSelectedListener( this);
+
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,16 +93,20 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         recyclerView =  rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        //check portait or landscape
+
         layoutManager = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ImageAdapter(getActivity(),null,this);
         recyclerView.setAdapter(adapter);
 
+      mLoadingIndicator =  rootView.findViewById(R.id.pb_loading_indicator);
+       recyclerView.setVisibility(View.VISIBLE);
 
-        movieTask = new MovieTask(getActivity(),this);
+        movieTask = new MovieTask(getActivity(),this,mLoadingIndicator);
         movieTask.execute();
+
+
 
         return rootView;
 
@@ -110,27 +116,12 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+       itemselected = parent.getItemAtPosition(position).toString();
+        getPrefernce(itemselected);
 
-            if(itemSelect!=null)
-            { //restore the value iand save it n share
-           //PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(SPINNER_SELECTION,itemSelect).apply();
-//            MovieTask movieTask = new MovieTask(getActivity(),this);
-//            movieTask.execute();
-       }
-        else{
-        itemselected = parent.getItemAtPosition(position).toString();
-           getPrefernce(itemselected);
-        }
-    }
 
-    private void getPrefernce(String s){
-        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        editor = preferences.edit();
-        editor.putString(SPINNER_SELECTION,s);
-        editor.apply();
-        MovieTask movieTask = new MovieTask(getActivity(),this);
-        movieTask.execute();
-    }
+}
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -158,6 +149,15 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
             recyclerView.getLayoutManager().onRestoreInstanceState(layout);
 
         }
+    }
+
+    private void getPrefernce(String s){
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor = preferences.edit();
+        editor.putString(SPINNER_SELECTION,s);
+        editor.apply();
+        MovieTask movieTask = new MovieTask(getActivity(),this,mLoadingIndicator);
+        movieTask.execute();
     }
 
 }//fragment

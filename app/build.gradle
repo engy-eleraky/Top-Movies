@@ -30,15 +30,9 @@ dependencies {
     })
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:appcompat-v7:26.+'
-//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:26.+'
-   // compile 'com.yqritc:recyclerview-flexibledivider:1.2.4'
     compile 'com.android.support:support-vector-drawable:26.+'
     compile 'com.android.support:preference-v7:26.+'
-
-    //compile 'com.android.support:support-vector-drawable-RipplrDrawable:26.+'
-
-    //compile 'android.graphics.drawable.RippleDrawable'
     compile 'com.android.support:design:26.+'
     testCompile 'junit:junit:4.12'
 }

@@ -14,8 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
-    //public static final String RESULT_KEY = "myobj";
-    //String RESULT_KEY;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
 
     }
     public static class DetailFragment extends Fragment {
-        //private static final String LOG_TAG = DetailFragment.class.getSimpleName();
 
         public DetailFragment() {
         }
@@ -47,11 +45,11 @@ public class DetailActivity extends AppCompatActivity {
             Intent intent = getActivity().getIntent();
             MovieItem movie= (MovieItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
 
-            TextView TextTitle = (TextView) rootView.findViewById(R.id.textTitle);
-            TextView TextRate = (TextView) rootView.findViewById(R.id.textRate);
-            TextView TextReleaseDate = (TextView) rootView.findViewById(R.id.textRelease);
-            TextView TextOverView = (TextView) rootView.findViewById(R.id.textOverView);
-            ImageView ImagePoster=(ImageView)rootView.findViewById(R.id.imageView);
+            TextView TextTitle =  rootView.findViewById(R.id.textTitle);
+            TextView TextRate =  rootView.findViewById(R.id.textRate);
+            TextView TextReleaseDate = rootView.findViewById(R.id.textRelease);
+            TextView TextOverView =  rootView.findViewById(R.id.textOverView);
+            ImageView ImagePoster= rootView.findViewById(R.id.imageView);
             TextTitle.setText(movie.getTitle());
             TextReleaseDate.setText(movie.getReleaseDate());
             String rate=String.valueOf(movie.getVoteAverage());
