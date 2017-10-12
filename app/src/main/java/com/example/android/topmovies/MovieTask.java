@@ -27,18 +27,18 @@ import java.util.ArrayList;
 public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
     private final onMoviesLoadedListner listener;
     Context context;
-    ProgressBar mLoadingIndicator;
-    public MovieTask(Context context,onMoviesLoadedListner listener,ProgressBar mLoadingIndicator) {
+    ProgressBar loadingIndicator;
+    public MovieTask(Context context,onMoviesLoadedListner listener,ProgressBar loadingIndicator) {
         this.listener = listener;
         this.context = context;
-        this.mLoadingIndicator=mLoadingIndicator;
+        this.loadingIndicator=loadingIndicator;
 
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-       mLoadingIndicator.setVisibility(View.VISIBLE);
+        loadingIndicator.setVisibility(View.VISIBLE);
     }
 
     private ArrayList<MovieItem> getDataFromJson(String JsonStr)
@@ -144,7 +144,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
 
     @Override
     protected void onPostExecute(ArrayList<MovieItem> result) {
-        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        loadingIndicator.setVisibility(View.INVISIBLE);
         listener.onMoviesLoaded(result);
 
     }//onpost

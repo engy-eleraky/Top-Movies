@@ -36,7 +36,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     String itemselected;
-     ProgressBar mLoadingIndicator;
+    ProgressBar loadingIndicator;
     private static final String SAVED_LAYOUT_MANAGER = "layout";
 
     public MainActivityFragment() {
@@ -100,10 +100,10 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         adapter = new ImageAdapter(getActivity(),null,this);
         recyclerView.setAdapter(adapter);
 
-      mLoadingIndicator =  rootView.findViewById(R.id.pb_loading_indicator);
-       recyclerView.setVisibility(View.VISIBLE);
+        loadingIndicator =  rootView.findViewById(R.id.loading_indicator);
+        recyclerView.setVisibility(View.VISIBLE);
 
-        movieTask = new MovieTask(getActivity(),this,mLoadingIndicator);
+        movieTask = new MovieTask(getActivity(),this,loadingIndicator);
         movieTask.execute();
 
 
@@ -116,11 +116,11 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-       itemselected = parent.getItemAtPosition(position).toString();
+        itemselected = parent.getItemAtPosition(position).toString();
         getPrefernce(itemselected);
 
 
-}
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
@@ -156,7 +156,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         editor = preferences.edit();
         editor.putString(SPINNER_SELECTION,s);
         editor.apply();
-        MovieTask movieTask = new MovieTask(getActivity(),this,mLoadingIndicator);
+        MovieTask movieTask = new MovieTask(getActivity(),this,loadingIndicator);
         movieTask.execute();
     }
 
