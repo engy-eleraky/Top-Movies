@@ -79,7 +79,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 R.array.spinner_list_item_array, R.layout.spinner_item);
         Adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(Adapter);
-        //spinner.getBackground().setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
 
 
         String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
