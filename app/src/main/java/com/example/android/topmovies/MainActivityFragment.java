@@ -3,6 +3,8 @@ package com.example.android.topmovies;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -72,9 +76,11 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         MenuItem item = menu.findItem(R.id.spinner);
         spinner = (Spinner) MenuItemCompat.getActionView(item);
         ArrayAdapter<CharSequence> Adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.spinner_list_item_array, android.R.layout.simple_spinner_item);
-        Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.spinner_list_item_array, R.layout.spinner_item);
+        Adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(Adapter);
+        //spinner.getBackground().setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
+
 
         String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
         if(pref.equals("top_rated")){

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Top Movies</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_detail">Details</string>
     <string-array name="spinner_list_item_array">
         <item>popular</item>
         <item>top_rated</item>
