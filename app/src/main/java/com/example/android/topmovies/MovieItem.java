@@ -1,6 +1,8 @@
 package com.example.android.topmovies;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Noga on 9/25/2017.
@@ -12,6 +14,17 @@ public class MovieItem implements Serializable {
     private String overView;
     private double voteAverage;
     private String releaseDate;
+    private String id;
+    private List<TrailerItem> trailers = new ArrayList<>();
+    private List<ReviewItem> reviews = new ArrayList<>();
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -52,5 +65,21 @@ public class MovieItem implements Serializable {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
+    public List<TrailerItem> getTrailers() {
+        return trailers;
+    }
+
+    public List<ReviewItem> getReviews() {
+        return reviews;
+    }
+    public void addTrailers(TrailerItem trailer){
+        trailers.add(trailer);
+    }
+    public void addReviews(ReviewItem review){
+        reviews.add(review);
+    }
+
 }
+
 

@@ -22,8 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -79,7 +77,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                 R.array.spinner_list_item_array, R.layout.spinner_item);
         Adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(Adapter);
-
+        spinner.getBackground().setColorFilter(Color.parseColor("#ffffff"), PorterDuff.Mode.SRC_ATOP);
 
         String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
         if(pref.equals("top_rated")){
