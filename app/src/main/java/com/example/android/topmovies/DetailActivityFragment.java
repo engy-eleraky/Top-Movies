@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 
-public class DetailActivityFragment extends Fragment {
+
+public class DetailActivityFragment extends Fragment implements DetailsTask.returnListener {
 
     public DetailActivityFragment() {
     }
@@ -36,5 +39,13 @@ public class DetailActivityFragment extends Fragment {
         Picasso.with(getContext()).load(movie.getPoster()).into(ImagePoster);
 
         return rootView;
+    }
+    private void onClickReview(){
+
+    }
+
+    @Override
+    public void onItemClick(ArrayList<MovieItem> result) {
+
     }
 }

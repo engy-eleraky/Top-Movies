@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.v7.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+    android:id="@+id/content_detail"
+    android:background="@color/colorWhite"
     android:layout_width="match_parent"
-    android:background="@color/colorDark"
-    >
+    android:layout_height="match_parent"
+    tools:context="com.example.android.topmovies.DetailActivityFragment"
+    tools:showIn="@layout/activity_detail">
     <LinearLayout
-        android:id="@+id/content_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.example.android.topmovies.DetailActivityFragment"
-        tools:showIn="@layout/activity_detail">
-
+        android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/trailerRecyclerView"
+            android:orientation="horizontal"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,12 +47,8 @@
                     android:layout_gravity="center"
                     android:id="@+id/textRelease"
                     android:textColor="@color/colorWhite"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/reviewButton"
-                    android:onClick="onClickReview"
-                    android:text="Review"/>
+
+
             </LinearLayout>
         </LinearLayout>
 
@@ -68,14 +67,20 @@
             android:contentDescription="Text which shows the over view of the movie"
             android:id="@+id/textOverView"
             android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/colorWhite"/>
+            android:textSize="17sp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginBottom="2dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trailers"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"/>
+            android:id="@+id/reviewId"
+            android:text="Reviews"
+            android:textSize="22sp"/>
+        <android.support.v7.widget.RecyclerView
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/reviewRecyclerView"/>
 
     </LinearLayout>
-</ScrollView>
+</android.support.v7.widget.NestedScrollView>
