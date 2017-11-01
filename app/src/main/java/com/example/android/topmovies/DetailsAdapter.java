@@ -43,11 +43,11 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
-            case 0:
+            case 1:
                 TrailerViewHolder vh1 = (TrailerViewHolder) holder;
                 configureTrailerHolder(vh1, position);
                 break;
-            case 1:
+            case 2:
                 ReviewViewHolder vh2 = (ReviewViewHolder) holder;
                 configureReviewHolder(vh2,position);
                 break;
