@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by Noga on 10/31/2017.
  */
 
-public class DetailsTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
+public class DetailsTask extends AsyncTask<String, String,ArrayList<MovieItem>> {
     final String APPID_PARAM = "api_key";
     private final returnListener listener;
     Context context;
@@ -82,7 +82,7 @@ public class DetailsTask extends AsyncTask<String, String, ArrayList<MovieItem>>
     }
 }
 
-    private  void getTrailersFromJson( MovieItem movie,String JsonStr)
+    private MovieItem getTrailersFromJson(MovieItem movie, String JsonStr)
             throws JSONException {
         JSONArray trailers = new JSONObject(JsonStr).getJSONArray("results");
         for (int i = 0; i < trailers.length(); i++) {
@@ -101,10 +101,10 @@ public class DetailsTask extends AsyncTask<String, String, ArrayList<MovieItem>>
             traileer.setTrailerImage(trailerImagee);
             movie.addTrailers(traileer);
         }
-
+       return movie;
     }
 
-    private  void getReviewsFromJson(MovieItem movie, String JsonStr)
+    private MovieItem getReviewsFromJson(MovieItem movie, String JsonStr)
             throws JSONException{
         JSONArray reviews = new JSONObject(JsonStr).getJSONArray("results");
         for (int i = 0; i < reviews.length(); i++) {
@@ -117,13 +117,14 @@ public class DetailsTask extends AsyncTask<String, String, ArrayList<MovieItem>>
             String content=review.getString("content");
             revieew.setContent(content);
             movie.addReviews(revieew);
-        }
 
+        }
+        return movie;
     }
 
     @Override
     protected ArrayList<MovieItem> doInBackground(String... params) {
-
+        ArrayList<MovieItem> data=new ArrayList<>();
         String ID =params[0];
         String JsonStr = httpConnection(TrailersUrl(ID));
         try {
@@ -138,10 +139,8 @@ public class DetailsTask extends AsyncTask<String, String, ArrayList<MovieItem>>
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        ArrayList<MovieItem> result = new ArrayList<>();
-        result.add(movie);
-        return result;
+      data.add(movie);
+        return data;
     }
 
     private Uri TrailersUrl(String ID) {
@@ -163,12 +162,12 @@ public class DetailsTask extends AsyncTask<String, String, ArrayList<MovieItem>>
     }
 
     @Override
-    protected void onPostExecute(ArrayList<MovieItem> result) {
-        listener.onItemClick(result);
+    protected void onPostExecute( ArrayList<MovieItem> result) {
+        listener.onItemReturned(result);
 
     }//onpost
 
     public interface returnListener{
-        void onItemClick(ArrayList<MovieItem> result );
+        void onItemReturned(ArrayList<MovieItem> result );
     }
 }

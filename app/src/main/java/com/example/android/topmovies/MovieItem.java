@@ -15,8 +15,8 @@ public class MovieItem implements Serializable {
     private double voteAverage;
     private String releaseDate;
     private String id;
-    private List<TrailerItem> trailers = new ArrayList<>();
-    private List<ReviewItem> reviews = new ArrayList<>();
+    private ArrayList<TrailerItem> trailers = new ArrayList<>();
+    private ArrayList<ReviewItem> reviews = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -66,14 +66,15 @@ public class MovieItem implements Serializable {
         this.releaseDate = releaseDate;
     }
 
-    public List<TrailerItem> getTrailers() {
+    public ArrayList<TrailerItem> getTrailers() {
         return trailers;
     }
 
-    public List<ReviewItem> getReviews() {
+    public ArrayList<ReviewItem> getReviews() {
         return reviews;
     }
     public void addTrailers(TrailerItem trailer){
+
         trailers.add(trailer);
     }
     public void addReviews(ReviewItem review){
