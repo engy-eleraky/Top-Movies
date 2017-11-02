@@ -20,14 +20,16 @@ import java.util.ArrayList;
 public class DetailActivityFragment extends Fragment implements DetailsTask.returnListener {
     RecyclerView recyclerViewTrailers;
     RecyclerView reclerViewReviews;
-    DetailsAdapter adapter;
+    DetailsAdapter trailerAdapter;
+    DetailsAdapter reviewAdapter;
+
     public DetailActivityFragment() {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+       // setHasOptionsMenu(true);
     }
 
     @Override
@@ -46,9 +48,10 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         recyclerViewTrailers.setLayoutManager(trailerLayout);
         reclerViewReviews.setLayoutManager(reviewLayout);
 
-        adapter = new DetailsAdapter(getActivity(), null);
-        recyclerViewTrailers.setAdapter(adapter);
-        reclerViewReviews.setAdapter(adapter);
+        trailerAdapter = new DetailsAdapter(getActivity(), null);
+        recyclerViewTrailers.setAdapter(trailerAdapter);
+        reviewAdapter=new DetailsAdapter(getActivity(),null);
+        reclerViewReviews.setAdapter(reviewAdapter);
 
         TextView TextTitle =  rootView.findViewById(R.id.textTitle);
         TextView TextRate =  rootView.findViewById(R.id.textRate);
@@ -57,12 +60,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         ImageView ImagePoster= rootView.findViewById(R.id.imageView);
 
         new DetailsTask(getActivity(),this,movie).execute(movie.getId());
-        //what to do next???????
-        //case 0,,1 view ?????
-        movie.getTrailers();
-        movie.getReviews();
-        //get trailers and attach it to adapter in listener
-        //get reviews and attach it to adapter in listener
+
         TextTitle.setText(movie.getTitle());
         TextReleaseDate.setText(movie.getReleaseDate());
         String rate=String.valueOf(movie.getVoteAverage());
@@ -74,11 +72,11 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
 
 
     @Override
-    public void onItemReturned(ArrayList<MovieItem> result) {
-        adapter=new DetailsAdapter(getActivity(),result);
-        recyclerViewTrailers.setAdapter(adapter);
-        reclerViewReviews.setAdapter(adapter);
-//how to know the position for trailers or reviews?????
+    public void onItemReturned(MovieItem result) {
+        trailerAdapter=new DetailsAdapter(getActivity(),result.getTrailers());
+        reviewAdapter=new DetailsAdapter(getActivity(),result.getReviews()) ;
+        recyclerViewTrailers.setAdapter(trailerAdapter);
+        reclerViewReviews.setAdapter(reviewAdapter);
 
     }
 }

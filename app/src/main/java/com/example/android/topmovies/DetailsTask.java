@@ -13,13 +13,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * Created by Noga on 10/31/2017.
  */
 
-public class DetailsTask extends AsyncTask<String, String,ArrayList<MovieItem>> {
+public class DetailsTask extends AsyncTask<String, String,MovieItem > {
     final String APPID_PARAM = "api_key";
     private final returnListener listener;
     Context context;
@@ -123,8 +122,7 @@ public class DetailsTask extends AsyncTask<String, String,ArrayList<MovieItem>> 
     }
 
     @Override
-    protected ArrayList<MovieItem> doInBackground(String... params) {
-        ArrayList<MovieItem> data=new ArrayList<>();
+    protected  MovieItem doInBackground(String... params) {
         String ID =params[0];
         String JsonStr = httpConnection(TrailersUrl(ID));
         try {
@@ -139,8 +137,7 @@ public class DetailsTask extends AsyncTask<String, String,ArrayList<MovieItem>> 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-      data.add(movie);
-        return data;
+      return movie;
     }
 
     private Uri TrailersUrl(String ID) {
@@ -162,12 +159,12 @@ public class DetailsTask extends AsyncTask<String, String,ArrayList<MovieItem>> 
     }
 
     @Override
-    protected void onPostExecute( ArrayList<MovieItem> result) {
+    protected void onPostExecute( MovieItem result) {
         listener.onItemReturned(result);
 
     }//onpost
 
     public interface returnListener{
-        void onItemReturned(ArrayList<MovieItem> result );
+        void onItemReturned(MovieItem result );
     }
 }

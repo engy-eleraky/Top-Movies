@@ -29,10 +29,10 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
-            case 0:
+            case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_item, parent, false);
                 return new TrailerViewHolder(view);
-            case 1:
+            case 2:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_item, parent, false);
                 return new ReviewViewHolder(view);
 
@@ -56,16 +56,15 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void configureTrailerHolder(TrailerViewHolder vh1, int position) {
-        ArrayList<TrailerItem> details=new ArrayList<>();
-        TrailerItem trailer=details.get(position);
+
+        TrailerItem trailer= (TrailerItem) details.get(position);
         Picasso.with(context).load(trailer.getTrailerImage()).into(vh1.TrailerImage);
 
 
     }
 
     private void configureReviewHolder(ReviewViewHolder vh2,int position) {
-        ArrayList<ReviewItem> details=new ArrayList<>();
-        ReviewItem review=details.get(position);
+        ReviewItem review= (ReviewItem) details.get(position);
         vh2.AuthorText.setText(review.getAuthor());
        vh2.ContentText.setText(review.getContent());
     }
@@ -83,9 +82,9 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position)
     {
-        if (position % 2 == 0) {
-            return 1;
-        } else {
+        if(details.get(0)instanceof TrailerItem )
+        { return 1;}
+       else {
             return 2;
         }
     }
