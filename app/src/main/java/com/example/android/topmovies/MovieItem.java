@@ -17,6 +17,8 @@ public class MovieItem implements Serializable {
     private String id;
     private ArrayList<TrailerItem> trailers = new ArrayList<>();
     private ArrayList<ReviewItem> reviews = new ArrayList<>();
+   private ArrayList<MovieItem> moviesList = new ArrayList<>();
+
 
     public String getId() {
         return id;
@@ -73,6 +75,10 @@ public class MovieItem implements Serializable {
     public ArrayList<ReviewItem> getReviews() {
         return reviews;
     }
+    public ArrayList<MovieItem> getMovies() {
+        return moviesList;
+    }
+
     public void addTrailers(TrailerItem trailer){
 
         trailers.add(trailer);
@@ -80,7 +86,10 @@ public class MovieItem implements Serializable {
     public void addReviews(ReviewItem review){
         reviews.add(review);
     }
+    public void addMovies(MovieItem movie){
 
+        moviesList.add(movie);
+    }
 }
 
 

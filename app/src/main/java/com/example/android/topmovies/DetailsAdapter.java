@@ -17,13 +17,15 @@ import java.util.ArrayList;
  */
 
 public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final ImageItemClickListner onClickListner;
     Context context;
     ArrayList<?> details;
-    DetailsAdapter(Context context,ArrayList<?> details) {
+
+    DetailsAdapter(Context context,ArrayList<?> details,ImageItemClickListner listner) {
         this.context=context;
         this.details=details;
+        onClickListner=listner;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,14 +54,15 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 configureReviewHolder(vh2,position);
                 break;
 
+
         }
     }
 
     private void configureTrailerHolder(TrailerViewHolder vh1, int position) {
 
         TrailerItem trailer= (TrailerItem) details.get(position);
-        Picasso.with(context).load(trailer.getTrailerImage()).into(vh1.TrailerImage);
-
+        vh1.TrailerText.setText(trailer.getName());
+        Picasso.with(context).load(trailer.getTrailerImage()).placeholder(R.drawable.ic1_launcher).into(vh1.TrailerImage);
 
     }
 
@@ -74,6 +77,7 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(null==details)return 0;
         return details.size();
     }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -84,16 +88,31 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     {
         if(details.get(0)instanceof TrailerItem )
         { return 1;}
-       else {
-            return 2;
-        }
+
+        else return 2;
     }
 
-    public class TrailerViewHolder extends RecyclerView.ViewHolder {
+    public interface ImageItemClickListner{
+        void onImageItemClick(TrailerItem trailer );
+    }
+
+    public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView TrailerImage;
+        TextView TrailerText;
         public TrailerViewHolder(View itemView) {
             super(itemView);
+            TrailerText=itemView.findViewById(R.id.trailerName);
             TrailerImage=itemView.findViewById(R.id.trailerId);
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            int clickedPosition= getAdapterPosition();
+            TrailerItem trailer= (TrailerItem) details.get(clickedPosition);
+            onClickListner.onImageItemClick(trailer);
         }
     }
 
@@ -107,5 +126,7 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ContentText=itemView.findViewById(R.id.contentId);
         }
     }
+
+
 
 }

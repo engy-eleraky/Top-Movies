@@ -1,12 +1,27 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/trailerId"
-            android:onClick="trailerOnClick"/>
-    </LinearLayout>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/trailerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="7dp"
+        android:ellipsize="end"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/trailerId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
+
+</LinearLayout>
 

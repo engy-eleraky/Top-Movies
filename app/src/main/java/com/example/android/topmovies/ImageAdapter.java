@@ -15,13 +15,9 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
+    private final ImageItemClickListner onClickListner;
     Context context;
     ArrayList<MovieItem> movies;
-    private final ImageItemClickListner onClickListner;
-
-    public interface ImageItemClickListner{
-        void onImageItemClick(Object movie );
-    }
 
     ImageAdapter(Context context, ArrayList<MovieItem> movies,ImageItemClickListner listner) {
         this.context = context;
@@ -38,6 +34,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
         MovieItem movie = movies.get(position);
+        //placeholder
         Picasso.with(context).load(movie.getPoster()).into(holder.imageView);
 
     }
@@ -53,6 +50,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         return position;
     }
 
+    public interface ImageItemClickListner{
+        void onImageItemClick(Object movie );
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;

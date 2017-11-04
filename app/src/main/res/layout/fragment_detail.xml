@@ -3,25 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_detail"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDark"
     tools:context="com.example.android.topmovies.DetailActivityFragment"
     tools:showIn="@layout/activity_detail">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/trailerRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,19 +40,20 @@
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:contentDescription="Text which shows the rate of the movie"
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite"
+                    />
                 <TextView
                     android:id="@+id/textRelease"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:contentDescription="Text which shows the release date of the movie"
-                    android:textColor="@color/colorWhite"/>
+                    android:textColor="@color/colorWhite"
+                    />
 
 
             </LinearLayout>
         </LinearLayout>
-
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="wrap_content"
@@ -64,14 +61,17 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:contentDescription="Text which shows the title of the movie"
-            android:textColor="@color/colorWhite"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            />
 
         <TextView
             android:id="@+id/textOverView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
             android:contentDescription="Text which shows the over view of the movie"
             android:textColor="@color/colorWhite"
             android:textSize="17sp"/>
@@ -79,14 +79,16 @@
             android:id="@+id/reviewId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="Reviews"
-            android:textSize="22sp"/>
-    </LinearLayout>
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/reviewRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            />
     </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>

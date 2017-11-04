@@ -26,8 +26,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class MainActivityFragment extends Fragment implements AdapterView.OnItemSelectedListener,onMoviesLoadedListner,ImageAdapter.ImageItemClickListner {
+public class MainActivityFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+        onMoviesLoadedListner,ImageAdapter.ImageItemClickListner {
     public static final String RESULT_KEY = "myobj";
+    private static final String SAVED_LAYOUT_MANAGER = "layout";
     public static  String SPINNER_SELECTION="decision";
     MovieTask movieTask;
     RecyclerView recyclerView;
@@ -39,7 +41,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     SharedPreferences.Editor editor;
     String itemselected;
     ProgressBar loadingIndicator;
-    private static final String SAVED_LAYOUT_MANAGER = "layout";
 
     public MainActivityFragment() {
 

@@ -90,13 +90,13 @@ public class DetailsTask extends AsyncTask<String, String,MovieItem > {
             String name = trailer.getString("name");
             traileer.setName(name);
             String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?";
-            String PARAM = "v=";
+            String PARAM = "v";
             String key = trailer.getString("key");
             Uri uri = Uri.parse(BASE_YOUTUBE_URL).buildUpon()
                     .appendQueryParameter(PARAM, key)
                     .build();
             traileer.setUrl(uri.toString());
-            String trailerImagee = "https://img.youtube.com/vi" + key + "0.jpg";
+            String trailerImagee = "https://img.youtube.com/vi/" + key + "/0.jpg";
             traileer.setTrailerImage(trailerImagee);
             movie.addTrailers(traileer);
         }
