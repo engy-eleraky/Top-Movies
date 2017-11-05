@@ -3,6 +3,7 @@ package com.example.android.topmovies;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Parcelable;
@@ -22,6 +23,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+
+import com.example.android.topmovies.data.MoviesContract;
+import com.example.android.topmovies.data.MoviesDbHelper;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -30,6 +35,20 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         onMoviesLoadedListner,ImageAdapter.ImageItemClickListner {
     public static final String RESULT_KEY = "myobj";
     private static final String SAVED_LAYOUT_MANAGER = "layout";
+    private static final String[] QUERY_COLUMNS = {
+            MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
+            MoviesContract.MovieEntry.COLUMN_TITLE,
+            MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,
+            MoviesContract.MovieEntry.COLUMN_OVER_VIEW,
+            MoviesContract.MovieEntry.COLUMN_POSTER,
+            MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE
+    };
+    private static final int MOVIE_ID_INDEX = 0;
+    private static final int MOVIE_ORIGINAL_TITLE_INDEX = 1;
+    private static final int MOVIE_POSTER_INDEX = 2;
+    private static final int MOVIE_OVERVIEW_INDEX = 3;
+    private static final int MOVIE_RELEASE_DATE_INDEX = 4;
+    private static final int MOVIE_VOTE_AVERAGE_INDEX = 5;
     public static  String SPINNER_SELECTION="decision";
     MovieTask movieTask;
     RecyclerView recyclerView;
@@ -41,6 +60,10 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     SharedPreferences.Editor editor;
     String itemselected;
     ProgressBar loadingIndicator;
+    MoviesDbHelper moviesDbHelper;
+    Cursor cursor;
+    private ArrayList<MovieItem> result = new ArrayList<>();
+
 
     public MainActivityFragment() {
 
@@ -65,6 +88,15 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState!=null  ){
             layout=savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER);
+//            String prefs=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
+//            if(prefs.equals("favorits")){
+//                queryFavoritMovies();
+//                onMoviesLoaded(result);}
+//           else{
+//                movieTask = new MovieTask(getActivity(), this, loadingIndicator);
+//                movieTask.execute();
+//
+//           }
         }
     }
 
@@ -83,9 +115,11 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         String pref=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SPINNER_SELECTION,"");
         if(pref.equals("top_rated")){
             spinner.setSelection(1);
-        }else {
+
+        }else if(pref.equals("popular")){
             spinner.setSelection(0);
         }
+        else {spinner.setSelection(2);}
         spinner.setOnItemSelectedListener( this);
 
     }
@@ -95,19 +129,20 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        recyclerView =  rootView.findViewById(R.id.recyclerView);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new GridLayoutManager(getActivity(),2);
+        layoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ImageAdapter(getActivity(),null,this);
+        adapter = new ImageAdapter(getActivity(), null, this);
         recyclerView.setAdapter(adapter);
 
-        loadingIndicator =  rootView.findViewById(R.id.loading_indicator);
+        loadingIndicator = rootView.findViewById(R.id.loading_indicator);
         recyclerView.setVisibility(View.VISIBLE);
 
-        movieTask = new MovieTask(getActivity(),this,loadingIndicator);
+
+        movieTask = new MovieTask(getActivity(), this, loadingIndicator);
         movieTask.execute();
 
 
@@ -122,8 +157,16 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
         itemselected = parent.getItemAtPosition(position).toString();
         getPrefernce(itemselected);
+        if(itemselected.equals("favorits"))
+        {
+           queryFavoritMovies();
+            onMoviesLoaded(result);
+        }
+        else {
 
-
+        MovieTask movieTask = new MovieTask(getActivity(),this,loadingIndicator);
+        movieTask.execute();
+        }
     }
 
     @Override
@@ -160,9 +203,27 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         editor = preferences.edit();
         editor.putString(SPINNER_SELECTION,s);
         editor.apply();
-        MovieTask movieTask = new MovieTask(getActivity(),this,loadingIndicator);
-        movieTask.execute();
+
     }
 
+    private ArrayList<MovieItem> queryFavoritMovies()
+  {
+    cursor=getActivity().getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,QUERY_COLUMNS,
+        null,null,null,null);
+    if (cursor.moveToFirst()) {
+        do {
+            MovieItem movie = new MovieItem();
+            movie.setId(cursor.getString(MOVIE_ID_INDEX));
+            movie.setTitle(cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX));
+            movie.setPoster(cursor.getString(MOVIE_POSTER_INDEX));
+            movie.setOverView(cursor.getString(MOVIE_OVERVIEW_INDEX));
+            movie.setReleaseDate(cursor.getString(MOVIE_RELEASE_DATE_INDEX));
+            movie.setVoteAverage(cursor.getDouble(MOVIE_VOTE_AVERAGE_INDEX));
+
+            result.add(movie);
+        } while (cursor.moveToNext());
+    }
+    return result;
+  }
 }//fragment
 

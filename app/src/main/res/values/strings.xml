@@ -5,5 +5,7 @@
     <string-array name="spinner_list_item_array">
         <item>popular</item>
         <item>top_rated</item>
+        <item>favorits</item>
+
     </string-array>
 </resources>

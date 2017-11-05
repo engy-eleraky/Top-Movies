@@ -130,4 +130,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         }
 
     }
+    //method on click (check if true or false then call proper method)
+    //method for add(isert )
+    //method for delete(swipe delete )
 }//class

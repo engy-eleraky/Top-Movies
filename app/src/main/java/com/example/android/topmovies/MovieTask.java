@@ -30,7 +30,6 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
     private final onMoviesLoadedListner listener;
     Context context;
     ProgressBar loadingIndicator;
-   // MovieItem movie;
     String BaseUrl = "http://api.themoviedb.org/3/movie/";
 
     public MovieTask(Context context,onMoviesLoadedListner listener,ProgressBar loadingIndicator) {
@@ -40,11 +39,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
 
     }
 
-//public MovieTask(Context context,onMoviesLoadedListner listener,MovieItem movie){
-//    this.context=context;
-//    this.listener=listener;
-//    this.movie=movie;
-//}
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -129,65 +124,9 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
 
     }//string
 
-//    private  void getTrailersFromJson( MovieItem movie,String JsonStr)
-//            throws JSONException {
-//        JSONArray trailers = new JSONObject(JsonStr).getJSONArray("results");
-//        ArrayList<MovieItem> moviesList = new ArrayList<>();
-//        for (int i = 0; i < trailers.length(); i++) {
-//            JSONObject trailer = trailers.getJSONObject(i);
-//            TrailerItem traileer = new TrailerItem();
-//            String name = trailer.getString("name");
-//            traileer.setName(name);
-//            String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?";
-//            String PARAM = "v=";
-//            String key = trailer.getString("key");
-//            Uri uri = Uri.parse(BASE_YOUTUBE_URL).buildUpon()
-//                    .appendQueryParameter(PARAM, key)
-//                    .build();
-//            traileer.setUrl(uri.toString());
-//            String trailerImagee = "https://img.youtube.com/vi" + key + "0.jpg";
-//            traileer.setTrailerImage(trailerImagee);
-//            movie.addTrailers(traileer);
-//        }
-//        moviesList.add(movie);
-//
-//    }
-//    private  void getReviewsFromJson(MovieItem movie, String JsonStr)
-//            throws JSONException{
-//        JSONArray reviews = new JSONObject(JsonStr).getJSONArray("results");
-//        ArrayList<MovieItem> moviesList = new ArrayList<>();
-//        for (int i = 0; i < reviews.length(); i++) {
-//            JSONObject review = reviews.getJSONObject(i);
-//            ReviewItem revieew = new ReviewItem();
-//            String author=review.getString("author");
-//            revieew.setAuthor(author);
-//            String url=review.getString("url");
-//            revieew.setUrl(url);
-//            String content=review.getString("content");
-//            revieew.setContent(content);
-//            movie.addReviews(revieew);
-//        }
-//
-//        moviesList.add(movie);
-//
-//    }
+
     @Override
     protected ArrayList<MovieItem> doInBackground(String... params) {
-//
-//            String ID =params[0];
-//            String JsonStr = httpConnection(TrailersUrl(ID));
-//            try {
-//                getTrailersFromJson(movie,JsonStr);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            JsonStr = httpConnection(ReviewsUrl(ID));
-//            try {
-//                getReviewsFromJson(movie,JsonStr);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String movii = preferences.getString(MainActivityFragment.SPINNER_SELECTION, "");

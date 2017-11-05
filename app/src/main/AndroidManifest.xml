@@ -34,6 +34,11 @@
             android:screenOrientation="portrait">
 
         </activity>
+
+        <provider
+            android:name=".data.MoviesProvider"
+            android:authorities="com.example.android.topmovies"
+            android:exported="false"/>
     </application>
 
 </manifest>
