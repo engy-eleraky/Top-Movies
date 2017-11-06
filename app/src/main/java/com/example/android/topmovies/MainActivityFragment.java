@@ -38,8 +38,8 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     private static final String[] QUERY_COLUMNS = {
             MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
             MoviesContract.MovieEntry.COLUMN_TITLE,
-            MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,
             MoviesContract.MovieEntry.COLUMN_OVER_VIEW,
+            MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,
             MoviesContract.MovieEntry.COLUMN_POSTER,
             MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE
     };
@@ -60,7 +60,6 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     SharedPreferences.Editor editor;
     String itemselected;
     ProgressBar loadingIndicator;
-    MoviesDbHelper moviesDbHelper;
     Cursor cursor;
     private ArrayList<MovieItem> result = new ArrayList<>();
 
@@ -159,7 +158,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         getPrefernce(itemselected);
         if(itemselected.equals("favorits"))
         {
-           queryFavoritMovies();
+          queryFavoritMovies();
             onMoviesLoaded(result);
         }
         else {
@@ -185,6 +184,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
 
     @Override
     public void onImageItemClick(Object movie) {
+
         Intent intent = new Intent(getActivity(), DetailActivity.class)
                 .putExtra(RESULT_KEY, (Serializable) movie);
         startActivity(intent);
@@ -209,15 +209,15 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
     private ArrayList<MovieItem> queryFavoritMovies()
   {
     cursor=getActivity().getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,QUERY_COLUMNS,
-        null,null,null,null);
+        null,null,null);
     if (cursor.moveToFirst()) {
         do {
             MovieItem movie = new MovieItem();
             movie.setId(cursor.getString(MOVIE_ID_INDEX));
             movie.setTitle(cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX));
-            movie.setPoster(cursor.getString(MOVIE_POSTER_INDEX));
             movie.setOverView(cursor.getString(MOVIE_OVERVIEW_INDEX));
             movie.setReleaseDate(cursor.getString(MOVIE_RELEASE_DATE_INDEX));
+            movie.setPoster(cursor.getString(MOVIE_POSTER_INDEX));
             movie.setVoteAverage(cursor.getDouble(MOVIE_VOTE_AVERAGE_INDEX));
 
             result.add(movie);

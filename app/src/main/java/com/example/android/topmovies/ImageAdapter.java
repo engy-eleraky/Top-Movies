@@ -65,7 +65,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-
             int clickedPosition= getAdapterPosition();
             MovieItem movie=movies.get(clickedPosition);
             onClickListner.onImageItemClick(movie);

@@ -2,6 +2,7 @@ package com.example.android.topmovies.data;
 
 import android.annotation.TargetApi;
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -41,6 +42,33 @@ public class MoviesProvider extends ContentProvider {
 
         return true;
     }
+
+    @Nullable
+    @Override
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+        final SQLiteDatabase db = moviesDbHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+        Uri returnUri;
+        switch (match) {
+            case CODE_MOVIE:
+
+                long id = db.insert(MoviesContract.MovieEntry.TABLE_NAME, null, contentValues);
+                if ( id > 0 ) {
+                    returnUri = ContentUris.withAppendedId(MoviesContract.MovieEntry.CONTENT_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                }
+                break;
+
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return returnUri;
+    }
+
 
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
@@ -146,11 +174,6 @@ public class MoviesProvider extends ContentProvider {
         return null;
     }
 
-    @Nullable
-    @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
-        return null;
-    }
 
 
 

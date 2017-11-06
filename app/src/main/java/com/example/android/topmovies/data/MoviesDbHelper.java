@@ -11,7 +11,7 @@ import com.example.android.topmovies.data.MoviesContract.MovieEntry;
 
 public class MoviesDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "movie.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public MoviesDbHelper(Context context) {
@@ -35,7 +35,7 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
                         MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, "                      +
 
                         MovieEntry.COLUMN_POSTER       + " TEXT NOT NULL, "                      +
-                        MovieEntry.COLUMN_VOTE_AVERAGE + "REAL NOT NULL,"                        +
+                        MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, "                      +
 
                         " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID + ") ON CONFLICT REPLACE);";
 
