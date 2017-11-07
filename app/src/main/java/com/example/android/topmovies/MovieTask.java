@@ -46,7 +46,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
     private static final int MOVIE_ORIGINAL_TITLE_INDEX = 1;
     private static final int MOVIE_OVERVIEW_INDEX = 2;
     private static final int MOVIE_RELEASE_DATE_INDEX = 3;
-    private static final int MOVIE_POSTER_INDEX = 2;
+    private static final int MOVIE_POSTER_INDEX = 4;
     private static final int MOVIE_VOTE_AVERAGE_INDEX = 5;
     final String APPID_PARAM = "api_key";
     private final onMoviesLoadedListner listener;
@@ -159,6 +159,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
                 movie.setTitle(cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX));
                 movie.setOverView(cursor.getString(MOVIE_OVERVIEW_INDEX));
                 movie.setReleaseDate(cursor.getString(MOVIE_RELEASE_DATE_INDEX));
+                String poster=cursor.getString(MOVIE_POSTER_INDEX);
                 movie.setPoster(cursor.getString(MOVIE_POSTER_INDEX));
                 movie.setVoteAverage(cursor.getDouble(MOVIE_VOTE_AVERAGE_INDEX));
 

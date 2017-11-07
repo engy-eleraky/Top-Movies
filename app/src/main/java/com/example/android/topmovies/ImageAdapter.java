@@ -1,6 +1,7 @@
 package com.example.android.topmovies;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
         MovieItem movie = movies.get(position);
         //placeholder
-        Picasso.with(context).load(movie.getPoster()).placeholder(R.drawable.ic1_launcher).into(holder.imageView);
+        Uri uri= Uri.parse(movie.getPoster());
+        Picasso.with(context).load(
+                movie.getPoster()
+        ).placeholder(R.drawable.ic1_launcher).into(holder.imageView);
         holder.textView.setText(movie.getTitle());
 
     }
