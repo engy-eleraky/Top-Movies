@@ -11,7 +11,7 @@ import com.example.android.topmovies.data.MoviesContract.MovieEntry;
 
 public class MoviesDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "movie.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
 
     public MoviesDbHelper(Context context) {

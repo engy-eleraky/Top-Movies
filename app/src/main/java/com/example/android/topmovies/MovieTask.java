@@ -155,9 +155,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
         if (cursor.moveToFirst()) {
             do {
                 MovieItem movie = new MovieItem();
-              String id=  cursor.getString(MOVIE_ID_INDEX);
                 movie.setId(cursor.getString(MOVIE_ID_INDEX));
-                String title=cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX);
                 movie.setTitle(cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX));
                 movie.setOverView(cursor.getString(MOVIE_OVERVIEW_INDEX));
                 movie.setReleaseDate(cursor.getString(MOVIE_RELEASE_DATE_INDEX));
