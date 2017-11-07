@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -35,7 +37,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
         MovieItem movie = movies.get(position);
         //placeholder
-        Picasso.with(context).load(movie.getPoster()).into(holder.imageView);
+        Picasso.with(context).load(movie.getPoster()).placeholder(R.drawable.ic1_launcher).into(holder.imageView);
+        holder.textView.setText(movie.getTitle());
 
     }
 
@@ -56,10 +59,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;
-
+        private TextView textView;
         public ViewHolder(View itemView) {
             super(itemView);
             imageView =   itemView.findViewById(R.id.posterView);
+            textView =   itemView.findViewById(R.id.movieTitle);
+
             itemView.setOnClickListener(this);
         }
 

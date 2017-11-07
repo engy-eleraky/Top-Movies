@@ -158,7 +158,7 @@ public class MainActivityFragment extends Fragment implements AdapterView.OnItem
         getPrefernce(itemselected);
         if(itemselected.equals("favorits"))
         {
-          queryFavoritMovies();
+            queryFavoritMovies();
             onMoviesLoaded(result);
         }
         else {

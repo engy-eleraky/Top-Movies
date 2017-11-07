@@ -3,6 +3,7 @@ package com.example.android.topmovies;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -76,13 +77,13 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         Intent intent = getActivity().getIntent();
-        final MovieItem movie= (MovieItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
+        final MovieItem movie = (MovieItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
 
-
-        recyclerViewTrailers =rootView.findViewById(R.id.trailerRecyclerView);
+        //save selection???? call method here
+        recyclerViewTrailers = rootView.findViewById(R.id.trailerRecyclerView);
         recyclerViewTrailers.setHasFixedSize(true);
 
-        reclerViewReviews=rootView.findViewById(R.id.reviewRecyclerView);
+        reclerViewReviews = rootView.findViewById(R.id.reviewRecyclerView);
         reclerViewReviews.setHasFixedSize(true);
 
         trailerLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true);
@@ -91,46 +92,39 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         recyclerViewTrailers.setLayoutManager(trailerLayout);
         reclerViewReviews.setLayoutManager(reviewLayout);
 
-        trailerAdapter = new DetailsAdapter(getActivity(), null,this);
+        trailerAdapter = new DetailsAdapter(getActivity(), null, this);
         recyclerViewTrailers.setAdapter(trailerAdapter);
-        reviewAdapter=new DetailsAdapter(getActivity(),null,this);
+        reviewAdapter = new DetailsAdapter(getActivity(), null, this);
         reclerViewReviews.setAdapter(reviewAdapter);
 
         //check connect to the internet or not ???????????
         //if connected
         //do task
-        new DetailsTask(getActivity(),this,movie).execute(movie.getId());
+        new DetailsTask(getActivity(), this, movie).execute(movie.getId());
 
-        TextView TextTitle =  rootView.findViewById(R.id.textTitle);
-        TextView TextRate =  rootView.findViewById(R.id.textRate);
-        TextView TextReleaseDate =  rootView.findViewById(R.id.textRelease);
-        TextView TextOverView =  rootView.findViewById(R.id.textOverView);
-        ImageView ImagePoster= rootView.findViewById(R.id.imageView);
+        TextView TextTitle = rootView.findViewById(R.id.textTitle);
+        TextView TextRate = rootView.findViewById(R.id.textRate);
+        TextView TextReleaseDate = rootView.findViewById(R.id.textRelease);
+        TextView TextOverView = rootView.findViewById(R.id.textOverView);
+        ImageView ImagePoster = rootView.findViewById(R.id.imageView);
         TextTitle.setText(movie.getTitle());
         TextReleaseDate.setText(movie.getReleaseDate());
-        String rate=String.valueOf(movie.getVoteAverage());
+        String rate = String.valueOf(movie.getVoteAverage());
         TextRate.setText(rate);
         TextOverView.setText(movie.getOverView());
         Picasso.with(getContext()).load(movie.getPoster()).into(ImagePoster);
 
-        favoritsCheckBox=rootView.findViewById(R.id.favCheck);
-        //save selection????
+        favoritsCheckBox = rootView.findViewById(R.id.favCheck);
         favoritsCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                //??????????
-                if (favoritsCheckBox.isChecked()){
+            public void onClick(View view) {
+                if (favoritsCheckBox.isChecked()) {
                     addMovie(movie);
-                }
-                else{
-                    //????
+                } else {
                     deleteMovie(movie.getId());
                 }
-
-
             }
         });
-
         return rootView;
     }
     @Override
@@ -138,9 +132,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         Intent intent = new  Intent(Intent.ACTION_VIEW);
         intent.setPackage("com.google.android.youtube");
         intent.setData(Uri.parse(trailer.getUrl()));
-
         startActivity(intent);
-
     }
 
     @Override
@@ -157,9 +149,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         if (layout1 != null &layout2 != null) {
             recyclerViewTrailers.getLayoutManager().onRestoreInstanceState(layout1);
             reclerViewReviews.getLayoutManager().onRestoreInstanceState(layout2);
-
         }
-
     }
 
 
@@ -176,17 +166,25 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
 
         getActivity().getContentResolver().insert(MoviesContract.MovieEntry.CONTENT_URI, contentValue);
 
-
     }
-    private void deleteMovie(String id){
-        String[] ID={id};
+    private void deleteMovie(String id) {
+        String[] ID = {id};
         getActivity().getContentResolver().delete(
                 MoviesContract.MovieEntry.CONTENT_URI,
                 MoviesContract.MovieEntry.COLUMN_MOVIE_ID + "=?",
                 ID
         );
-
     }
+
+    private Cursor addedToFavorits (){
+        Cursor cursor=getActivity().getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,
+                null, null,null,null);
+        if(cursor.moveToFirst()){
+        return cursor;
+    }
+    return null;
+    }
+
 
 
 }//class
