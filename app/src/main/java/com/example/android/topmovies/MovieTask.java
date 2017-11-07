@@ -44,9 +44,9 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
     };
     private static final int MOVIE_ID_INDEX = 0;
     private static final int MOVIE_ORIGINAL_TITLE_INDEX = 1;
+    private static final int MOVIE_OVERVIEW_INDEX = 2;
+    private static final int MOVIE_RELEASE_DATE_INDEX = 3;
     private static final int MOVIE_POSTER_INDEX = 2;
-    private static final int MOVIE_OVERVIEW_INDEX = 3;
-    private static final int MOVIE_RELEASE_DATE_INDEX = 4;
     private static final int MOVIE_VOTE_AVERAGE_INDEX = 5;
     final String APPID_PARAM = "api_key";
     private final onMoviesLoadedListner listener;
