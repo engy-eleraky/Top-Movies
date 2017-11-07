@@ -1,14 +1,12 @@
 package com.example.android.topmovies;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -37,11 +35,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
         MovieItem movie = movies.get(position);
-        //placeholder
-        Uri uri= Uri.parse(movie.getPoster());
-        Picasso.with(context).load(
-                movie.getPoster()
-        ).placeholder(R.drawable.ic1_launcher).into(holder.imageView);
+        Picasso.with(context).load(movie.getPoster()).placeholder(R.drawable.ic1_launcher).into(holder.imageView);
         holder.textView.setText(movie.getTitle());
 
     }

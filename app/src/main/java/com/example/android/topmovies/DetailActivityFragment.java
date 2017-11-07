@@ -3,34 +3,22 @@ package com.example.android.topmovies;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.example.android.topmovies.data.MoviesContract;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class DetailActivityFragment extends Fragment implements DetailsTask.returnListener,DetailsAdapter.ImageItemClickListner {
@@ -45,6 +33,8 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     Parcelable layout1;
     Parcelable layout2;
     CheckBox favoritsCheckBox;
+    ScrollView mScrollView;
+    String position;
     public DetailActivityFragment() {
     }
     @Override
@@ -54,22 +44,39 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outsate) {
-        outsate.putParcelable(SAVED_LAYOUT1_MANAGER, recyclerViewTrailers.getLayoutManager().onSaveInstanceState());
-        outsate.putParcelable(SAVED_LAYOUT2_MANAGER, reclerViewReviews.getLayoutManager().onSaveInstanceState());
-
-        super.onSaveInstanceState(outsate);
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(SAVED_LAYOUT1_MANAGER, recyclerViewTrailers.getLayoutManager().onSaveInstanceState());
+        outState.putParcelable(SAVED_LAYOUT2_MANAGER, reclerViewReviews.getLayoutManager().onSaveInstanceState());
+//        outState.putIntArray("ARTICLE_SCROLL_POSITION",
+//                new int[]{ mScrollView.getScrollX(), mScrollView.getScrollY()});
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("private preference", Context.MODE_PRIVATE);
+        boolean isChecked = prefs.getBoolean("CheckboxData",false);
+        if(isChecked){
+            favoritsCheckBox.setChecked(true);
+        }
+        else{
+            favoritsCheckBox.setChecked(false);
+        }
         if (savedInstanceState!=null  ){
             layout1=savedInstanceState.getParcelable(SAVED_LAYOUT1_MANAGER);
             layout2=savedInstanceState.getParcelable(SAVED_LAYOUT2_MANAGER);
-            //rotation??????
+//            final int[] position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
+//            if(position != null)
+//                mScrollView.post(new Runnable() {
+//                    public void run() {
+//                        mScrollView.scrollTo(position[0], position[1]);
+//                    }
+//                });
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,7 +86,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         Intent intent = getActivity().getIntent();
         final MovieItem movie = (MovieItem) intent.getSerializableExtra(MainActivityFragment.RESULT_KEY);
 
-        //save selection???? call method here
         recyclerViewTrailers = rootView.findViewById(R.id.trailerRecyclerView);
         recyclerViewTrailers.setHasFixedSize(true);
 
@@ -97,9 +103,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         reviewAdapter = new DetailsAdapter(getActivity(), null, this);
         reclerViewReviews.setAdapter(reviewAdapter);
 
-        //check connect to the internet or not ???????????
-        //if connected
-        //do task
         new DetailsTask(getActivity(), this, movie).execute(movie.getId());
 
         TextView TextTitle = rootView.findViewById(R.id.textTitle);
@@ -118,13 +121,21 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         favoritsCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (favoritsCheckBox.isChecked()) {
-                    addMovie(movie);
-                } else {
+                if (!favoritsCheckBox.isChecked()) {
                     deleteMovie(movie.getId());
+                    SharedPreferences prefs = getActivity().getSharedPreferences("private preference", Context.MODE_PRIVATE);
+                    prefs.edit().putBoolean("CheckboxData",false).apply();
+                } else {
+                    addMovie(movie);
+                    SharedPreferences prefs = getActivity().getSharedPreferences("private preference", Context.MODE_PRIVATE);
+                    prefs.edit().putBoolean("CheckboxData",true).apply();
+
                 }
             }
         });
+
+
+
         return rootView;
     }
     @Override
@@ -152,7 +163,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         }
     }
 
-
     private void addMovie(MovieItem movie){
 
         ContentValues contentValue = new ContentValues();
@@ -160,7 +170,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         contentValue.put(MoviesContract.MovieEntry.COLUMN_TITLE, movie.getTitle());
         contentValue.put(MoviesContract.MovieEntry.COLUMN_OVER_VIEW, movie.getOverView());
         contentValue.put(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
-        //offline?????
         contentValue.put(MoviesContract.MovieEntry.COLUMN_POSTER, movie.getPoster());
         contentValue.put(MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
 
@@ -175,16 +184,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
                 ID
         );
     }
-
-//    private Cursor addedToFavorits (){
-//        Cursor cursor=getActivity().getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,
-//                null, null,null,null);
-//        if(cursor.moveToFirst()){
-//        return cursor;
-//    }
-//    return null;
-//    }
-
 
 
 }//class

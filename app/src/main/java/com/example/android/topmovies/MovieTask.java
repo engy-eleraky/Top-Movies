@@ -3,7 +3,6 @@ package com.example.android.topmovies;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -11,10 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-
 import com.example.android.topmovies.data.MoviesContract;
-import com.example.android.topmovies.data.MoviesDbHelper;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -159,7 +155,6 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
                 movie.setTitle(cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX));
                 movie.setOverView(cursor.getString(MOVIE_OVERVIEW_INDEX));
                 movie.setReleaseDate(cursor.getString(MOVIE_RELEASE_DATE_INDEX));
-                String poster=cursor.getString(MOVIE_POSTER_INDEX);
                 movie.setPoster(cursor.getString(MOVIE_POSTER_INDEX));
                 movie.setVoteAverage(cursor.getDouble(MOVIE_VOTE_AVERAGE_INDEX));
 
