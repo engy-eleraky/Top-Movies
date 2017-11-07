@@ -2,12 +2,19 @@ package com.example.android.topmovies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.example.android.topmovies.data.MoviesContract;
+import com.example.android.topmovies.data.MoviesDbHelper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,11 +33,27 @@ import java.util.ArrayList;
  */
 
 public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
+    private static final String TAG = MovieTask.class.getSimpleName();
+    private static final String[] QUERY_COLUMNS = {
+            MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
+            MoviesContract.MovieEntry.COLUMN_TITLE,
+            MoviesContract.MovieEntry.COLUMN_OVER_VIEW,
+            MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,
+            MoviesContract.MovieEntry.COLUMN_POSTER,
+            MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE
+    };
+    private static final int MOVIE_ID_INDEX = 0;
+    private static final int MOVIE_ORIGINAL_TITLE_INDEX = 1;
+    private static final int MOVIE_POSTER_INDEX = 2;
+    private static final int MOVIE_OVERVIEW_INDEX = 3;
+    private static final int MOVIE_RELEASE_DATE_INDEX = 4;
+    private static final int MOVIE_VOTE_AVERAGE_INDEX = 5;
     final String APPID_PARAM = "api_key";
     private final onMoviesLoadedListner listener;
     Context context;
     ProgressBar loadingIndicator;
     String BaseUrl = "http://api.themoviedb.org/3/movie/";
+
 
     public MovieTask(Context context,onMoviesLoadedListner listener,ProgressBar loadingIndicator) {
         this.listener = listener;
@@ -125,21 +148,50 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
     }//string
 
 
+    private ArrayList<MovieItem> queryFavoritMovies()
+    {        ArrayList<MovieItem> moviesList = new ArrayList<>();
+        Cursor cursor=context.getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,QUERY_COLUMNS,
+                null,null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                MovieItem movie = new MovieItem();
+                movie.setId(cursor.getString(MOVIE_ID_INDEX));
+                movie.setTitle(cursor.getString(MOVIE_ORIGINAL_TITLE_INDEX));
+                movie.setOverView(cursor.getString(MOVIE_OVERVIEW_INDEX));
+                movie.setReleaseDate(cursor.getString(MOVIE_RELEASE_DATE_INDEX));
+                movie.setPoster(cursor.getString(MOVIE_POSTER_INDEX));
+                movie.setVoteAverage(cursor.getDouble(MOVIE_VOTE_AVERAGE_INDEX));
+
+                moviesList.add(movie);
+            } while (cursor.moveToNext());
+        }
+        return moviesList;
+    }
+
     @Override
     protected ArrayList<MovieItem> doInBackground(String... params) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String movii = preferences.getString(MainActivityFragment.SPINNER_SELECTION, "");
-
         Uri builtUri = Uri.parse(BaseUrl).buildUpon().appendEncodedPath(movii)
                 .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_Movie_API_KEY).build();
         String JsonStr=httpConnection(builtUri);
+          if(movii.equals("favorits")){
+              try {
+                  return  queryFavoritMovies();
+              } catch (Exception e) {
+                  e.printStackTrace();
+                  Log.e(TAG,"failed to query");
+              }
+          }
+        else{
+
         try {
 
             return getDataFromJson(JsonStr);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }}
         return null;
 
     }//back

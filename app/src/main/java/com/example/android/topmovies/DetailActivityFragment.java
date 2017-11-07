@@ -176,14 +176,14 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         );
     }
 
-    private Cursor addedToFavorits (){
-        Cursor cursor=getActivity().getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,
-                null, null,null,null);
-        if(cursor.moveToFirst()){
-        return cursor;
-    }
-    return null;
-    }
+//    private Cursor addedToFavorits (){
+//        Cursor cursor=getActivity().getContentResolver().query(MoviesContract.MovieEntry.CONTENT_URI,
+//                null, null,null,null);
+//        if(cursor.moveToFirst()){
+//        return cursor;
+//    }
+//    return null;
+//    }
 
 
 
