@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     CheckBox favoritsCheckBox;
     ScrollView mScrollView;
     String position;
+     String IdCheck;
     public DetailActivityFragment() {
     }
     @Override
@@ -57,7 +59,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         super.onActivityCreated(savedInstanceState);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("private preference", Context.MODE_PRIVATE);
-        boolean isChecked = prefs.getBoolean("CheckboxData",false);
+        boolean isChecked = prefs.getBoolean(IdCheck,false);
         if(isChecked){
             favoritsCheckBox.setChecked(true);
         }
@@ -116,7 +118,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         TextRate.setText(rate);
         TextOverView.setText(movie.getOverView());
         Picasso.with(getContext()).load(movie.getPoster()).into(ImagePoster);
-
+          IdCheck=movie.getId();
         favoritsCheckBox = rootView.findViewById(R.id.favCheck);
         favoritsCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,11 +126,11 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
                 if (!favoritsCheckBox.isChecked()) {
                     deleteMovie(movie.getId());
                     SharedPreferences prefs = getActivity().getSharedPreferences("private preference", Context.MODE_PRIVATE);
-                    prefs.edit().putBoolean("CheckboxData",false).apply();
+                    prefs.edit().putBoolean(IdCheck,false).apply();
                 } else {
                     addMovie(movie);
                     SharedPreferences prefs = getActivity().getSharedPreferences("private preference", Context.MODE_PRIVATE);
-                    prefs.edit().putBoolean("CheckboxData",true).apply();
+                    prefs.edit().putBoolean(IdCheck,true).apply();
 
                 }
             }
@@ -138,7 +140,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
 
         return rootView;
     }
-    @Override
+
     public void onImageItemClick(TrailerItem trailer) {
         Intent intent = new  Intent(Intent.ACTION_VIEW);
         intent.setPackage("com.google.android.youtube");
