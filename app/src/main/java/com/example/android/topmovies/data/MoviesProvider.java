@@ -113,7 +113,7 @@ public class MoviesProvider extends ContentProvider {
                 String[] selectionArguments = new String[]{uri.getPathSegments().get(1)};
                 cursor = moviesDbHelper.getReadableDatabase().query(
                         MoviesContract.MovieEntry.TABLE_NAME,
-                        null,
+                        projection,
                         MoviesContract.MovieEntry.COLUMN_MOVIE_ID + " = ? ",
                         selectionArguments,
                         null,
@@ -126,7 +126,7 @@ public class MoviesProvider extends ContentProvider {
             case CODE_MOVIE: {
                 cursor = moviesDbHelper.getReadableDatabase().query(
                         MoviesContract.MovieEntry.TABLE_NAME,
-                        null,
+                        projection,
                         selection,
                         selectionArgs,
                         null,
