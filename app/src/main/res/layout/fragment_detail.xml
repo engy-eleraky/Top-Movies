@@ -13,6 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Trailers"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/trailerRecyclerView"
             android:layout_width="match_parent"

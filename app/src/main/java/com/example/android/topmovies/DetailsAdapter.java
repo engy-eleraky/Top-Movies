@@ -65,10 +65,12 @@ public class DetailsAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void configureReviewHolder(ReviewViewHolder vh2,int position) {
-        ReviewItem review= (ReviewItem) details.get(position);
-        vh2.AuthorText.setText(review.getAuthor());
-       vh2.ContentText.setText(review.getContent());
-    }
+            ReviewItem review = (ReviewItem) details.get(position);
+            vh2.AuthorText.setText(review.getAuthor());
+            vh2.ContentText.setText(review.getContent());
+
+        }
+
 
     @Override
     public int getItemCount() {
