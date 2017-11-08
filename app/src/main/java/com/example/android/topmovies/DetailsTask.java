@@ -82,7 +82,7 @@ public class DetailsTask extends AsyncTask<String, String,MovieItem > {
 }
 
     private MovieItem getTrailersFromJson(MovieItem movie, String JsonStr)
-            throws JSONException {
+            throws Exception {
         JSONArray trailers = new JSONObject(JsonStr).getJSONArray("results");
         for (int i = 0; i < trailers.length(); i++) {
             JSONObject trailer = trailers.getJSONObject(i);
@@ -104,7 +104,7 @@ public class DetailsTask extends AsyncTask<String, String,MovieItem > {
     }
 
     private MovieItem getReviewsFromJson(MovieItem movie, String JsonStr)
-            throws JSONException{
+            throws Exception{
         JSONArray reviews = new JSONObject(JsonStr).getJSONArray("results");
         for (int i = 0; i < reviews.length(); i++) {
             JSONObject review = reviews.getJSONObject(i);
@@ -127,14 +127,14 @@ public class DetailsTask extends AsyncTask<String, String,MovieItem > {
         String JsonStr = httpConnection(TrailersUrl(ID));
         try {
             getTrailersFromJson(movie,JsonStr);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         JsonStr = httpConnection(ReviewsUrl(ID));
         try {
             getReviewsFromJson(movie,JsonStr);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
       return movie;

@@ -112,7 +112,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
     }
 
     private ArrayList<MovieItem> getDataFromJson(String JsonStr)
-            throws JSONException
+            throws Exception
 
     {
         //parameters we need to fetch
@@ -184,7 +184,7 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
         try {
 
             return getDataFromJson(JsonStr);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }}
         return null;

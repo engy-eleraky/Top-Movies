@@ -39,7 +39,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+         setRetainInstance(true);
     }
 
     @Override
@@ -61,11 +61,11 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         else{
             favoritsCheckBox.setChecked(false);
         }
-        if (savedInstanceState!=null  ){
-            layout1=savedInstanceState.getParcelable(SAVED_LAYOUT1_MANAGER);
+        if (savedInstanceState!=null  ) {
+            layout1 = savedInstanceState.getParcelable(SAVED_LAYOUT1_MANAGER);
             layout2=savedInstanceState.getParcelable(SAVED_LAYOUT2_MANAGER);
 
-        }//onActivity
+        }//if
     }//class
 
 
@@ -86,8 +86,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         trailerLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true);
         reviewLayout = new LinearLayoutManager(getActivity());
 
-        recyclerViewTrailers.setLayoutManager(trailerLayout);
-        reclerViewReviews.setLayoutManager(reviewLayout);
+
 
         trailerAdapter = new DetailsAdapter(getActivity(), null, this);
         recyclerViewTrailers.setAdapter(trailerAdapter);
@@ -130,7 +129,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
 
     public void onImageItemClick(TrailerItem trailer) {
         Intent intent = new  Intent(Intent.ACTION_VIEW);
-        intent.setPackage("com.google.android.youtube");
         intent.setData(Uri.parse(trailer.getUrl()));
         startActivity(intent);
     }
