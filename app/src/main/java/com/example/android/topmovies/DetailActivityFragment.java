@@ -32,14 +32,13 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     Parcelable layout1;
     Parcelable layout2;
     CheckBox favoritsCheckBox;
-     String IdCheck;
+    String IdCheck;
 
     public DetailActivityFragment() {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setRetainInstance(true);
     }
 
     @Override
@@ -85,15 +84,19 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
 
         trailerLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true);
         reviewLayout = new LinearLayoutManager(getActivity());
-
-
+        recyclerViewTrailers.setLayoutManager(trailerLayout);
+        reclerViewReviews.setLayoutManager(reviewLayout);
 
         trailerAdapter = new DetailsAdapter(getActivity(), null, this);
         recyclerViewTrailers.setAdapter(trailerAdapter);
         reviewAdapter = new DetailsAdapter(getActivity(), null, this);
         reclerViewReviews.setAdapter(reviewAdapter);
-
-        new DetailsTask(getActivity(), this, movie).execute(movie.getId());
+        if(savedInstanceState!=null){
+            onItemReturned(movie);
+        }
+        else{
+            new DetailsTask(getActivity(), this, movie).execute(movie.getId());
+        }
 
         TextView TextTitle = rootView.findViewById(R.id.textTitle);
         TextView TextRate = rootView.findViewById(R.id.textRate);
@@ -107,7 +110,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         TextOverView.setText(movie.getOverView());
         Picasso.with(getContext()).load(movie.getPoster()).into(ImagePoster);
 
-          IdCheck=movie.getId();
+        IdCheck=movie.getId();
         favoritsCheckBox = rootView.findViewById(R.id.favCheck);
         favoritsCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,9 +140,9 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     public void onItemReturned(MovieItem result) {
         trailerAdapter=new DetailsAdapter(getActivity(),result.getTrailers(),this);
         reviewAdapter=new DetailsAdapter(getActivity(),result.getReviews(),this) ;
+        restoreLayoutManagerPosition();
         recyclerViewTrailers.setAdapter(trailerAdapter);
         reclerViewReviews.setAdapter(reviewAdapter);
-        restoreLayoutManagerPosition();
 
     }
 
