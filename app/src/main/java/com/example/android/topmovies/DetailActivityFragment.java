@@ -38,7 +38,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     int scrollX;
     int scrollY;
      String IdCheck;
-     float[] position;
+     int[] position;
     public DetailActivityFragment() {
     }
     @Override
@@ -54,9 +54,11 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
 
 //        outState.putInt("scrollX", mScrollView.getScrollX());
 //        outState.putInt("scrollY", mScrollView.getScrollY());
-         outState.putFloatArray("ARTICLE_SCROLL_POSITION",
-                new float[]{ mScrollView.getScrollX()/mScrollView.getChildAt(0).getWidth(),
-                        mScrollView.getScrollY()/mScrollView.getChildAt(0).getHeight()});
+//         outState.putFloatArray("ARTICLE_SCROLL_POSITION",
+//                new float[]{ mScrollView.getScrollX()/mScrollView.getChildAt(0).getWidth(),
+//                        mScrollView.getScrollY()/mScrollView.getChildAt(0).getHeight()});
+        outState.putIntArray("ARTICLE_SCROLL_POSITION",
+                new int[]{ mScrollView.getScrollX(), mScrollView.getScrollY()});
         super.onSaveInstanceState(outState);
     }
 
@@ -77,8 +79,17 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
             layout2=savedInstanceState.getParcelable(SAVED_LAYOUT2_MANAGER);
 //            scrollX = savedInstanceState.getInt("scrollX");
 //            scrollY = savedInstanceState.getInt("scrollY");
+            if(position != null){
+                mScrollView.post(new Runnable() {
+                    public void run() {
+                        mScrollView.scrollTo(position[0], position[1]);
 
-             position = savedInstanceState.getFloatArray("ARTICLE_SCROLL_POSITION");
+//                    mScrollView.scrollTo( Math.round(position[0]*mScrollView.getChildAt(0).getWidth()),
+//                            Math.round(position[1]*mScrollView.getChildAt(0).getHeight()));
+                    }
+                });
+            }//if
+             position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
 
 
 
@@ -142,7 +153,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
             }
         });
 
-restore();
+//restore();
         return rootView;
     }
 
@@ -172,16 +183,18 @@ restore();
         }
     }
 
-    private void restore(){
-        if(position != null){
-            mScrollView.post(new Runnable() {
-                public void run() {
-                    mScrollView.scrollTo( Math.round(position[0]*mScrollView.getChildAt(0).getWidth()),
-                            Math.round(position[1]*mScrollView.getChildAt(0).getHeight()));
-                }
-            });
-        }//if
-    }
+//    private void restore(){
+//        if(position != null){
+//            mScrollView.post(new Runnable() {
+//                public void run() {
+//                    mScrollView.scrollTo(position[0], position[1]);
+//
+////                    mScrollView.scrollTo( Math.round(position[0]*mScrollView.getChildAt(0).getWidth()),
+////                            Math.round(position[1]*mScrollView.getChildAt(0).getHeight()));
+//                }
+//            });
+//        }//if
+//    }
     private void addMovie(MovieItem movie){
 
         ContentValues contentValue = new ContentValues();
