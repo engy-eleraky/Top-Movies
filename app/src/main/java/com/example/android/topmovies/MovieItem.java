@@ -2,7 +2,6 @@ package com.example.android.topmovies;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Noga on 9/25/2017.

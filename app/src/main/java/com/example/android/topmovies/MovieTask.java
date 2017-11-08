@@ -177,7 +177,6 @@ public class MovieTask extends AsyncTask<String, String, ArrayList<MovieItem>> {
                   return  queryFavoritMovies();
               } catch (Exception e) {
                   e.printStackTrace();
-                  Log.e(TAG,"failed to query");
               }
           }
         else{

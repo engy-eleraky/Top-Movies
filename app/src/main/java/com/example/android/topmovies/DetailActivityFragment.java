@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.android.topmovies.data.MoviesContract;
 import com.squareup.picasso.Picasso;
@@ -34,11 +32,8 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     Parcelable layout1;
     Parcelable layout2;
     CheckBox favoritsCheckBox;
-    NestedScrollView mScrollView;
-    int scrollX;
-    int scrollY;
      String IdCheck;
-     int[] position;
+
     public DetailActivityFragment() {
     }
     @Override
@@ -51,14 +46,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(SAVED_LAYOUT1_MANAGER, recyclerViewTrailers.getLayoutManager().onSaveInstanceState());
         outState.putParcelable(SAVED_LAYOUT2_MANAGER, reclerViewReviews.getLayoutManager().onSaveInstanceState());
-
-//        outState.putInt("scrollX", mScrollView.getScrollX());
-//        outState.putInt("scrollY", mScrollView.getScrollY());
-//         outState.putFloatArray("ARTICLE_SCROLL_POSITION",
-//                new float[]{ mScrollView.getScrollX()/mScrollView.getChildAt(0).getWidth(),
-//                        mScrollView.getScrollY()/mScrollView.getChildAt(0).getHeight()});
-        outState.putIntArray("ARTICLE_SCROLL_POSITION",
-                new int[]{ mScrollView.getScrollX(), mScrollView.getScrollY()});
         super.onSaveInstanceState(outState);
     }
 
@@ -77,21 +64,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         if (savedInstanceState!=null  ){
             layout1=savedInstanceState.getParcelable(SAVED_LAYOUT1_MANAGER);
             layout2=savedInstanceState.getParcelable(SAVED_LAYOUT2_MANAGER);
-//            scrollX = savedInstanceState.getInt("scrollX");
-//            scrollY = savedInstanceState.getInt("scrollY");
-            if(position != null){
-                mScrollView.post(new Runnable() {
-                    public void run() {
-                        mScrollView.scrollTo(position[0], position[1]);
-
-//                    mScrollView.scrollTo( Math.round(position[0]*mScrollView.getChildAt(0).getWidth()),
-//                            Math.round(position[1]*mScrollView.getChildAt(0).getHeight()));
-                    }
-                });
-            }//if
-             position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
-
-
 
         }//onActivity
     }//class
@@ -123,7 +95,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         reclerViewReviews.setAdapter(reviewAdapter);
 
         new DetailsTask(getActivity(), this, movie).execute(movie.getId());
-        mScrollView=rootView.findViewById(R.id.content_detail);
+
         TextView TextTitle = rootView.findViewById(R.id.textTitle);
         TextView TextRate = rootView.findViewById(R.id.textRate);
         TextView TextReleaseDate = rootView.findViewById(R.id.textRelease);
@@ -135,6 +107,7 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         TextRate.setText(rate);
         TextOverView.setText(movie.getOverView());
         Picasso.with(getContext()).load(movie.getPoster()).into(ImagePoster);
+
           IdCheck=movie.getId();
         favoritsCheckBox = rootView.findViewById(R.id.favCheck);
         favoritsCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +125,6 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
                 }
             }
         });
-
-//restore();
         return rootView;
     }
 
@@ -178,23 +149,10 @@ public class DetailActivityFragment extends Fragment implements DetailsTask.retu
         if (layout1 != null &layout2 != null ) {
             recyclerViewTrailers.getLayoutManager().onRestoreInstanceState(layout1);
             reclerViewReviews.getLayoutManager().onRestoreInstanceState(layout2);
-            //mScrollView.scrollTo(scrollX, scrollY);
 
         }
     }
 
-//    private void restore(){
-//        if(position != null){
-//            mScrollView.post(new Runnable() {
-//                public void run() {
-//                    mScrollView.scrollTo(position[0], position[1]);
-//
-////                    mScrollView.scrollTo( Math.round(position[0]*mScrollView.getChildAt(0).getWidth()),
-////                            Math.round(position[1]*mScrollView.getChildAt(0).getHeight()));
-//                }
-//            });
-//        }//if
-//    }
     private void addMovie(MovieItem movie){
 
         ContentValues contentValue = new ContentValues();

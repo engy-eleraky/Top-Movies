@@ -31,7 +31,9 @@
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <provider
             android:name=".data.MoviesProvider"
