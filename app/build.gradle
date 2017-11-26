@@ -19,7 +19,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_Movie_API_KEY', '"cea144434e7fc1e15f1e4bd1c76bb505"'
+        it.buildConfigField 'String', 'OPEN_Movie_API_KEY', '"insert_your_API"'
     }
 }
 
